@@ -1,3 +1,17 @@
-# Particle Swarm Simulation
+# Particle Swarm Optimization
 
-Particle swarm optimization is inspired by social behavior of bird flocking or fish schooling.
+This application simulates the partical motion with SDL.
+
+## Particle Swarm Optimization
+
+PSO is a kind of evolutionary algorithm inspired by social behavior of bird flocking or fish schooling.
+
+1. Initialize the swarm from the solution space
+2. Evaluate fitness of individual particles
+3. Update _gbest_, _pbest_ and velocity
+
+repeat step 2 to 4 until convergence or stopping condition is satisfied.
+
+Reference
+
+https://jamesmccaffrey.wordpress.com/2015/06/09/particle-swarm-optimization-using-python/
