@@ -5,7 +5,7 @@
 namespace pso {
 	class Screen {
 	public:
-		const static int WINDOW_WIDTH = 800;
+		const static int WINDOW_WIDTH = 600;
 		const static int WINDOW_HEIGHT = 600;
 		
 		Screen();

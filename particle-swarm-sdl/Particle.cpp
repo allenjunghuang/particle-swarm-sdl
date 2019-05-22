@@ -9,14 +9,7 @@ namespace pso {
 		m_angle = 2*M_PI*rand() / RAND_MAX;
 		m_velocity = 0.0001 * rand() / RAND_MAX;
 	}
-	/*
-	Particle::Particle() {
-		m_x = (2.0*rand() / RAND_MAX) - 1;
-		m_y = (2.0*rand() / RAND_MAX) - 1;
-		m_xspeed = 0.001*((2.0*rand() / RAND_MAX) - 1);
-		m_yspeed = 0.001*((2.0*rand() / RAND_MAX) - 1);
-	}
-	*/
+	
 	Particle::~Particle() {
 	}
 

@@ -4,7 +4,7 @@
 namespace pso {
 	class Swarm	{ //members are default private in class
 	public:
-		const static int NPARTICLES = 5000;
+		const static int NPARTICLES = 500;
 
 	private:
 		Particle *m_pParticles;
@@ -13,6 +13,6 @@ namespace pso {
 		Swarm();
 		virtual ~Swarm();
 		void update(int elapsed);
-		const Particle * const getParticles() { return m_pParticles; };
+		const Particle * const collect() { return m_pParticles; };
 	};
 } /* namespace pso */

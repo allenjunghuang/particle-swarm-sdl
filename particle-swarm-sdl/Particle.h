@@ -11,6 +11,10 @@ namespace pso {
 		double m_velocity;
 		double m_angle;
 
+		double m_xpbest;
+		double m_ypbest;
+		double m_pfitness;
+
 	public:
 		Particle();
 		virtual ~Particle();

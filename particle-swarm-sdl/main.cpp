@@ -5,6 +5,7 @@
 #include <time.h>
 #include "Screen.h"
 #include "Swarm.h"
+#include "Optimizer.h"
 
 using namespace std;
 using namespace pso;
@@ -12,6 +13,7 @@ using namespace pso;
 int main(int argc, char *args[]) {
 	
 	srand(time(NULL)); // create different seeds for random number generator
+	 
 	Screen screen;
 
 	if (screen.init() == false) {
@@ -21,6 +23,7 @@ int main(int argc, char *args[]) {
 	int windowCenterY = Screen::WINDOW_HEIGHT / 2;
 
 	Swarm swarm;
+	Ackley optimizer;
 
 	while (true) { //game loop runs as long as the game is running, such as draw particles, check events
 		
@@ -29,7 +32,7 @@ int main(int argc, char *args[]) {
 		//screen.clear();
 		swarm.update(elapsed);
 		
-		const Particle * const pParticles = swarm.getParticles();
+		const Particle * const pParticles = swarm.collect();
 
 		for (int i = 0; i < Swarm::NPARTICLES; i++) {
 			Particle particle = pParticles[i];
