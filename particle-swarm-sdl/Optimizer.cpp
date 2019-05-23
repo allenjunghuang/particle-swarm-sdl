@@ -10,5 +10,13 @@ namespace pso {
 		delete[] m_pParticles;
 	}
 
+	void Optimizer::update(int elapsed) {
+		int interval = elapsed - this->m_elapsed;
+
+		for (int i = 0; i < Optimizer::NPARTICLES; i++) {
+			m_pParticles[i].update(interval);
+		}
+		this->m_elapsed = elapsed;
+	}
 
 }

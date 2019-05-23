@@ -20,6 +20,8 @@ namespace pso {
 		Optimizer();
 		virtual ~Optimizer();
 		virtual void init(Particle& particle) = 0;
+		void update(int elapsed);
+		const Particle * const collect() { return m_pParticles; };
 	};
 
 	class Sphere : public Optimizer {
