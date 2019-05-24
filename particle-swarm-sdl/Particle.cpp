@@ -1,7 +1,5 @@
-#define _USE_MATH_DEFINES
 #include "Particle.h"
-#include <stdlib.h>
-#include <math.h>
+
 
 namespace pso {
 
@@ -13,7 +11,7 @@ namespace pso {
 	Particle::~Particle() {
 	}
 
-	void Particle::update(int interval) {
+	void Particle::burst(int interval) {
 
 		m_xspeed = m_velocity * cos(m_angle);
 		m_yspeed = m_velocity * sin(m_angle);
@@ -22,15 +20,38 @@ namespace pso {
 		m_y += m_yspeed * interval;
 	}
 
-	void Particle::bounce() {
-		m_x += m_xspeed;
-		m_y += m_yspeed;
+	void Particle::init(double xUpperBound, double xLowerBound, double yUpperBound, double yLowerBound) {
+		m_x = (xUpperBound - xLowerBound) / 2 * ((2.0*rand() / RAND_MAX) - 1) + (xUpperBound + xLowerBound) / 2;
+		m_y = (yUpperBound - yLowerBound) / 2 * ((2.0*rand() / RAND_MAX) - 1) + (yUpperBound + yLowerBound) / 2;
+		m_xspeed = 0.1*((2.0*rand() / RAND_MAX) - 1);
+		m_yspeed = 0.1*((2.0*rand() / RAND_MAX) - 1);
+		m_fitness = fit(m_x, m_y);
 
-		if (m_x <= -1.0 || m_x >= 1.0) {
-			m_xspeed = -m_xspeed;
-		}
-		if (m_y <= -1.0 || m_y >= 1.0) {
-			m_yspeed = -m_yspeed;
+		m_bestFitness = m_fitness;
+		m_bestX = m_x;
+		m_bestY = m_y;
+	}
+
+	double Particle::fit(double x, double y) {
+		return (pow(x, 2) + pow(y, 2));
+		//return (pow(x, 2) - (10 * cos(2 * M_PI* x)) + 10) + (pow(y, 2) - (10 * cos(2 * M_PI* y)) + 10);
+	}
+
+	void Particle::optimize(double c1, double c2, double gbestX, double gbestY, int interval) {
+
+		m_xspeed = m_xspeed + c1 * (rand() / RAND_MAX)* (m_bestX - m_x) + c2 * (rand() / RAND_MAX)* (gbestX - m_x);
+		m_yspeed = m_yspeed + c1 * (rand() / RAND_MAX)* (m_bestY - m_y) + c2 * (rand() / RAND_MAX)* (gbestY - m_y);
+
+		m_x += m_xspeed * interval;
+		m_y += m_yspeed * interval;
+
+		m_fitness = fit(m_x, m_y);
+
+		if (m_fitness < this->m_bestFitness) {
+			this->m_bestFitness = m_fitness;
+			this->m_bestX = m_x;
+			this->m_bestY = m_y;
 		}
 	}
+
 } /* namespace pso */

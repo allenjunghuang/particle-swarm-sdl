@@ -5,7 +5,6 @@
 #include <time.h>
 #include "Screen.h"
 #include "Swarm.h"
-#include "Optimizer.h"
 
 using namespace std;
 using namespace pso;
@@ -22,50 +21,45 @@ int main(int argc, char *args[]) {
 	int windowCenterX = Screen::WINDOW_WIDTH / 2;
 	int windowCenterY = Screen::WINDOW_HEIGHT / 2;
 
+	cout << "Initialize particles" << endl;
 	Swarm swarm;
-	Ackley optimizer;
-
+	
+	swarm.init(10.0, -10.0, 10.0, -10.0);
+	
+	int iter = 0;
 	while (true) { //game loop runs as long as the game is running, such as draw particles, check events
 		
-		int elapsed = SDL_GetTicks();
-
-		//screen.clear();
-		swarm.update(elapsed);
+		//int elapsed = SDL_GetTicks();
+		//swarm.burst(elapsed);
+		
+		swarm.optimize(iter);
+		cout << "global minimum: " << swarm.m_gbestFitness << " (" << swarm.m_gbestX << "," << swarm.m_gbestY << ")" << endl;
 		
 		const Particle * const pParticles = swarm.collect();
 
 		for (int i = 0; i < Swarm::NPARTICLES; i++) {
 			Particle particle = pParticles[i];
 
-			int x = windowCenterX + (particle.m_x)*Screen::WINDOW_WIDTH / 2;
-			int y = windowCenterY + (particle.m_y)*Screen::WINDOW_WIDTH / 2;
+			int x = windowCenterX + (particle.m_x) * Screen::WINDOW_WIDTH / (swarm.m_xUpperBound - swarm.m_xLowerBound);
+			int y = windowCenterY + (particle.m_y) * Screen::WINDOW_HEIGHT / (swarm.m_yUpperBound - swarm.m_yLowerBound);
 
-			screen.setPixel(x, y, 255, 255, 255);
+			screen.setPixel(x, y, 255, 0, 0);
 		}
-		
-		/* wax and wane canvas color
-		int elapsed = SDL_GetTicks();
-		unsigned char g = (1 + sin(elapsed*0.001)) * 128; // use unsigned char to range the integer 0~255
-
-		for (int y = 0; y < Screen::WINDOW_HEIGHT; y++) {
-			for (int x = 0; x < Screen::WINDOW_WIDTH; x++) {
-				screen.setPixel(x, y, 0, g, 0);
-			}
-		}
-		*/
 
 		screen.boxBlur();
 
 		//draw the screen
 		screen.update();
-
+		
 		//check event or message
-		if (screen.process() == false) {
+		if (screen.process() == false || iter >= Swarm::MAX_ITERATION) {
 			break;
 		}
+		iter++;
 	}
 	
 	screen.close();
+	
 
 	return 0;
 }

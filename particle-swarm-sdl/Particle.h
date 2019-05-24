@@ -1,5 +1,9 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <stdlib.h>
+
 namespace pso {
 
 	struct Particle { //members are default public in struct
@@ -10,15 +14,19 @@ namespace pso {
 		double m_yspeed;
 		double m_velocity;
 		double m_angle;
+		double m_fitness;
 
-		double m_xpbest;
-		double m_ypbest;
-		double m_pfitness;
+		double m_bestX;
+		double m_bestY;
+		double m_bestFitness;
 
 	public:
 		Particle();
 		virtual ~Particle();
-		void update(int interval);
-		void bounce();
+		void burst(int interval);
+
+		void init(double xUpperBound, double xLowerBound, double yUpperBound, double yLowerBound);
+		void optimize(double c1, double c2, double xbest, double ybest, int interval);
+		double fit(double x, double y);
 	};
 } /* namespace pso */
