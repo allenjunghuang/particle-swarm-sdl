@@ -23,10 +23,7 @@ namespace pso {
 	public:
 		Particle();
 		virtual ~Particle();
-		void burst(int interval);
-
-		void init(double xUpperBound, double xLowerBound, double yUpperBound, double yLowerBound);
-		void optimize(double c1, double c2, double xbest, double ybest, int interval);
-		double fit(double x, double y);
+		void update(int interval);
 	};
+
 } /* namespace pso */
